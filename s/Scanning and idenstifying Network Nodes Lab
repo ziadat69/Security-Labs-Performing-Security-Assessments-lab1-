@@ -1,0 +1,33 @@
+-> ifconfig 
+
+-> ip a
+
+-> ip route show
+
+-> arp -a 
+
+-> ip neighbor 
+
+-> pathping 
+
+-> nmap localhost
+
+-> nmap 172.16.232.132/24
+
+-> sudo nmap -sS 172.16.232.132
+
+-> nmap -A 172.16.232.132
+
+-> nmap --top-ports 20  172.16.232.32/24
+
+->nmap -sn  172.16.232.0/24 
+
+________________________________
+
+curl -s -I (ip server)
+
+dig -x (ip webseite)
+
+dig soa 8.8.8.8
+
+
