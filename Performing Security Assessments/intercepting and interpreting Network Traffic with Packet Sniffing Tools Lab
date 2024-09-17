@@ -1,0 +1,20 @@
+-> Switched port anlayzer (SPAN)  -> copy farmes passing over designated source ports to a destination port, wich the packet sniffer is connected to
+or
+-> Network Tap hardware 
+
+_________-
+
+tcpdump
+
+
+tcpdump -i eth0 
+
+tcmpdump -vv 10.1.0.2 and port www -w ww.pcap
+
+
+
+or 
+
+wireshark 
+
+
