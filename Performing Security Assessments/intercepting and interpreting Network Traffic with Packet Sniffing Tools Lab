@@ -1,3 +1,7 @@
+in Swithc 
+
+
+
 -> Switched port anlayzer (SPAN)  -> copy farmes passing over designated source ports to a destination port, wich the packet sniffer is connected to
 or
 -> Network Tap hardware 
