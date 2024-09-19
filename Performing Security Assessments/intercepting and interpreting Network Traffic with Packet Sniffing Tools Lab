@@ -1,24 +1,26 @@
-in Swithc 
+1. **Switched Port Analyzer (SPAN)**: 
 
+SPAN is used to mirror or copy frames passing through designated source ports to a destination port. A packet sniffer or analyzer like Wireshark can be connected to the destination port for monitoring network traffic.
 
+2. **Network Tap Hardware**: 
 
--> Switched port anlayzer (SPAN)  -> copy farmes passing over designated source ports to a destination port, wich the packet sniffer is connected to
-or
--> Network Tap hardware 
+A physical network tap is a hardware device that allows network traffic to be monitored. It splits the traffic and sends a copy to a monitoring device without disrupting the flow of data.
 
-_________-
+----------------------------------
 
-tcpdump
+1. **tcpdump**: 
 
+     A command-line packet analyzer used to capture and display network traffic. It is widely used for network troubleshooting.
 
-tcpdump -i eth0 
+2. **tcpdump -i eth0**: 
 
-tcmpdump -vv 10.1.0.2 and port www -w ww.pcap
+     Captures and displays all network traffic on the network interface `eth0`. This command listens to all packets passing through that interface.
 
+3. **tcpdump -vv 10.1.0.2 and port www -w ww.pcap**
+      
+      This command captures verbose output of traffic going to and from IP `10.1.0.2` on the HTTP port (80) and writes it to a file called `ww.pcap` for later analysis.
 
+or -----
 
-or 
-
-wireshark 
-
-
+1. **Wireshark**:
+        A graphical network protocol analyzer used to capture and analyze network packets in real-time. It provides a more user-friendly and visual interface compared to tcpdump.
