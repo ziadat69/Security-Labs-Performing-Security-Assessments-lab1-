@@ -1,33 +1,59 @@
--> ifconfig 
+--> ifconfig
 
--> ip a
+ Displays network interfaces and their configurations such as IP addresses, netmasks, and MAC addresses. It is commonly used for troubleshooting and verifying network connections.
 
--> ip route show
+--> ip a 
 
--> arp -a 
+Shows network interfaces and their address information, similar to ifconfig but more modern and detailed. It is used to manage and display network addresses.
 
--> ip neighbor 
+--> ip route show 
 
--> pathping 
+Lists the current routing tables of the system. It shows how traffic is being routed through the network.
 
--> nmap localhost
+-->  arp -a: 
 
--> nmap 172.16.232.132/24
+Displays the ARP table, which maps IP addresses to corresponding MAC addresses. It is useful for checking local network connections.
 
--> sudo nmap -sS 172.16.232.132
+--> ip neighbor 
 
--> nmap -A 172.16.232.132
+Shows neighboring devices that can be reached over the network using the Neighbor Discovery Protocol (NDP) or ARP. It is helpful for network diagnostics.
 
--> nmap --top-ports 20  172.16.232.32/24
+--> pathping
 
-->nmap -sn  172.16.232.0/24 
+A diagnostic tool that combines traceroute and ping to analyze the path and quality of a network connection. It provides detailed information about packet loss along the route.
 
-________________________________
+--> nmap localhost
 
-curl -s -I (ip server)
+Scans the local machine to find open ports and services. Nmap is commonly used for security analysis.
 
-dig -x (ip webseite)
+--> nmap 172.16.232.132/24
 
-dig soa 8.8.8.8
+Scans an entire subnet for active devices and open ports. It shows which hosts are up and which ports are accessible.
 
+--> sudo nmap -sS 172.16.232.132
 
+Performs a TCP SYN scan on a host to detect open ports. This method is faster and more stealthy than full connection scans.
+
+--> nmap -A 172.16.232.132
+
+Conducts a detailed scan that detects operating systems, services, versions, and potential vulnerabilities on the target system. It is used for comprehensive analysis.
+
+--> nmap --top-ports 20 172.16.232.32/24
+
+Scans the top 20 most commonly used ports within the specified subnet. It is useful for quickly checking frequently used ports.
+
+-->  nmap -sn 172.16.232.0/24
+
+Performs a host discovery scan to identify active devices on the network without scanning their ports. It is ideal for network overview.
+
+--> curl -s -I (IP server)
+
+Retrieves only the header of an HTTP request from a server, showing details like status code and server information. It is often used to quickly check if a server is reachable.
+
+--> dig -x (IP website)
+
+Performs a reverse DNS lookup to find the domain name associated with an IP address. It is useful for identifying hosts by their IP.
+
+-->  dig soa 8.8.8.8
+
+Queries the Start of Authority (SOA) record of a domain, providing information about the primary DNS server and who is responsible for the domain zone.
