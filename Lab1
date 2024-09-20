@@ -1,0 +1,29 @@
+‏
+‏1. **Turn off Antivirus**: 
+‏   - Disabling antivirus is generally not recommended unless absolutely necessary for troubleshooting.
+‏   - If you do disable it temporarily, ensure you re-enable it after completing your tasks.
+
+‏2. **Suspicious Program ("Odyssee")**:
+‏   - If the program contains malware, avoid downloading or running it.
+‏   - Scan the system with a trusted antivirus or anti-malware tool like Malwarebytes.
+
+‏3. **Suspicious Process ("ncat") in Task Manager**:
+‏   - "ncat" is a legitimate network tool, part of Nmap, often used for network troubleshooting. However, it can be exploited maliciously.
+‏   - Check if you’ve installed any network tools recently.
+‏   - If the process appears without explanation, investigate further by checking the file path and running a virus scan on it.
+
+‏4. **Malware Found in "Angry IP Scanner"**:
+‏   - "Angry IP Scanner" is a network scanning tool, but if you're experiencing malware-related issues, remove the program and scan your machine.
+‏   - Use a dedicated malware removal tool to scan for and remove any suspicious files.
+
+‏5. **"Putty" Involvement**:
+‏   - Putty is a legitimate SSH client, but if unauthorized connections are being made, it could be exploited for remote access.
+‏   - Check for any unexpected connections or configurations.
+
+‏To resolve the situation:
+
+‏- **Uninstall any suspicious software** and remove any files associated with "Odyssee," "ncat," and "Angry IP Scanner."
+‏- **Run a thorough malware scan** with a trusted antivirus.
+‏- **Check your firewall and network settings** for unauthorized changes or open ports.
+  
+‏Would you like assistance with specific commands or tools for further investigation
