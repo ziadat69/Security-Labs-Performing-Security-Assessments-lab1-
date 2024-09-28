@@ -1,0 +1,30 @@
+---> Switching Attacks : 
+
+1) Man-in-the-Middle/On-Path Attacks
+2) MAC Cloning
+3) MAC Flooding Attacks
+
+The solution: 
+   MAC Filtering and MAC Limiting
+   The IEEE 802.1X standard defines a port-based network access control (PNAC) mechanism.
+
+   
+
+---> Routing Attacks :
+   1) router spoofing : Man-in-the-Middle Attack,Traffic Redirecting Attack
+
+
+
+
+---> Wireless Infrastructure:
+
+1) ROGUE ACCESS POINTS AND EVIL TWINS
+2) JAMMING ATTACKS
+
+
+
+---> Server Attacks :
+ 1) DDoS (Distributed Denial of Service
+
+ The solution:  Load Balancers
+ 
