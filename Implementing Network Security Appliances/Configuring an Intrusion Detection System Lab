@@ -1,0 +1,95 @@
+To set up a lab for testing a **SYN Flood** DoS attack using **hping3**, we'll create a simple lab environment that includes an attacker and a target machine. We'll use **hping3** to launch the attack, monitor the traffic with tools like **Wireshark**, and apply mitigation techniques using **iptables**. Here's how to set up the lab step by step:
+
+### **1. Setting up the Lab Environment**
+
+#### **Requirements:**
+- **Attacker Machine**: Any Linux distribution (e.g., Ubuntu).
+- **Target Machine**: A web server running on Linux (e.g., Ubuntu).
+- **VirtualBox** or any other virtualization software.
+
+#### **Steps:**
+- **Create two virtual machines**:
+  - Set up two virtual machines using **VirtualBox**.
+  - Make sure both machines are connected to the same network, either "Internal Network" or "Host-Only Adapter," so they can communicate.
+
+### **2. Setting up the Target Server**
+
+#### **Steps:**
+1. **Install Apache on the Target Machine**:
+   - Open the terminal on the target machine and install the Apache web server:
+     ```bash
+     sudo apt update
+     sudo apt install apache2
+     ```
+   - Once installed, ensure the server is running:
+     ```bash
+     sudo systemctl start apache2
+     sudo systemctl enable apache2
+     ```
+   - Verify that the web server is running by opening a browser and typing the target machine’s IP address.
+
+### **3. Setting up the Attacker Machine**
+
+#### **Install hping3 on the Attacker Machine**:
+1. On the attacker machine, open the terminal and install **hping3**:
+   ```bash
+   sudo apt update
+   sudo apt install hping3
+   ```
+
+2. **Launch a SYN Flood Attack using hping3**:
+   - Once the tool is installed, use the following command to launch the attack:
+     ```bash
+     sudo hping3 -S --flood -V -p 80 <target IP address>
+     ```
+     - **-S**: Sends SYN packets.
+     - **--flood**: Sends packets continuously without waiting for responses.
+     - **-V**: Verbose mode for more detailed output.
+     - **-p 80**: Targets port 80 (HTTP).
+
+### **4. Monitoring Network Traffic using Wireshark**
+
+#### **Install Wireshark on the Target Machine**:
+1. On the target machine, install Wireshark:
+   ```bash
+   sudo apt install wireshark
+   ```
+
+2. **Start capturing traffic**:
+   - Open Wireshark and select the network interface to monitor traffic.
+   - Use the following filter to display only SYN packets:
+     ```
+     tcp.flags.syn == 1
+     ```
+
+### **5. Mitigating the Attack using iptables**
+
+#### **Using iptables to mitigate the SYN Flood attack**:
+1. On the target machine, apply the following rule to limit the rate of SYN packets:
+   ```bash
+   sudo iptables -A INPUT -p tcp --syn -m limit --limit 1/s -j ACCEPT
+   ```
+   - This command limits the server to accept only one SYN packet per second per connection.
+
+2. **Enable SYN Cookies**:
+   - You can also enable SYN cookies to reduce the impact of the attack:
+     ```bash
+     sudo sysctl -w net.ipv4.tcp_syncookies=1
+     ```
+
+### **6. Analyze the Results and Create a Report**
+
+#### **Analyzing the Attack**:
+1. **Use Wireshark** to analyze traffic and count the number of SYN packets received.
+2. **Monitor resource usage** on the target server during the attack with:
+   ```bash
+   top
+   ```
+
+#### **Create a Report**:
+- Document the impact of the attack on the server, including resource usage and traffic load.
+- Include the mitigation techniques applied and how effective they were.
+
+---
+
+By following these steps, you will have created a complete lab to test a **SYN Flood** attack using **hping3**, analyze the attack using **Wireshark**, and mitigate its effects using **iptables**. Let me know if you need further clarification or details on any of the steps!
