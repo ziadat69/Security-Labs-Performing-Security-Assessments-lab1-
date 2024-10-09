@@ -1,0 +1,192 @@
+### Lab Setup for DHCP and DNS with Security Testing
+
+This lab will guide you through setting up a virtual environment to experiment with **DHCP** and **DNS**, and then conduct security testing on these protocols. The lab will cover setting up a DHCP server, a DNS server, monitoring traffic, and testing common attacks such as DHCP starvation and DNS spoofing.
+
+### Requirements:
+1. **Virtualization software** such as **VirtualBox** or **VMware**.
+2. **Linux distribution** (e.g., **Ubuntu**) to set up DHCP and DNS servers.
+3. **Kali Linux** for security testing and attacks.
+4. **Wireshark** for monitoring network traffic.
+
+### Goals:
+1. Set up a **DHCP server** to assign IP addresses.
+2. Set up a **DNS server** to resolve domain names.
+3. Use **Wireshark** to monitor DHCP and DNS traffic.
+4. Conduct security tests including **DHCP starvation** and **DNS spoofing**.
+
+---
+
+### Step 1: Setting Up the Virtual Environment
+
+#### 1.1: Create Virtual Machines
+- Create three virtual machines in **VirtualBox** or **VMware**:
+  1. **Kali Linux**: Attack machine.
+  2. **Ubuntu**: Server to run **DHCP** and **DNS**.
+  3. **Ubuntu or Windows**: Client to receive IP address from DHCP and use DNS for name resolution.
+
+#### 1.2: Network Configuration
+- Configure the network as an **Internal Network** in the virtualization software. This will ensure all machines are on the same network and isolated from your actual network.
+
+---
+
+### Step 2: Setting Up a DHCP Server
+
+#### 2.1: Install DHCP Server on Ubuntu
+On the **Ubuntu** server machine, install the **isc-dhcp-server** package:
+
+```bash
+sudo apt-get update
+sudo apt-get install isc-dhcp-server
+```
+
+#### 2.2: Configure DHCP
+Edit the DHCP configuration file `/etc/dhcp/dhcpd.conf`:
+
+```bash
+sudo nano /etc/dhcp/dhcpd.conf
+```
+
+Add the following configuration:
+
+```bash
+default-lease-time 600;
+max-lease-time 7200;
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.10 192.168.1.100;
+  option routers 192.168.1.1;
+  option domain-name-servers 192.168.1.1, 8.8.8.8;
+  option domain-name "lab.local";
+}
+```
+
+#### 2.3: Start DHCP Service
+Start and enable the **DHCP** service:
+
+```bash
+sudo systemctl start isc-dhcp-server
+sudo systemctl enable isc-dhcp-server
+```
+
+---
+
+### Step 3: Setting Up a DNS Server
+
+#### 3.1: Install DNS Server (Bind9)
+Install **Bind9** DNS server on the **Ubuntu** machine:
+
+```bash
+sudo apt-get install bind9
+```
+
+#### 3.2: Configure DNS
+Edit the DNS configuration file `/etc/bind/named.conf.local` to add a DNS zone:
+
+```bash
+sudo nano /etc/bind/named.conf.local
+```
+
+Add the following:
+
+```bash
+zone "lab.local" {
+  type master;
+  file "/etc/bind/db.lab.local";
+};
+```
+
+#### 3.3: Create Zone File
+Create the zone file for **lab.local**:
+
+```bash
+sudo cp /etc/bind/db.local /etc/bind/db.lab.local
+sudo nano /etc/bind/db.lab.local
+```
+
+Edit the contents of the file to define the DNS records:
+
+```bash
+;
+; BIND data file for lab.local
+;
+$TTL    604800
+@       IN      SOA     ns.lab.local. admin.lab.local. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns.lab.local.
+ns      IN      A       192.168.1.1
+client1 IN      A       192.168.1.10
+client2 IN      A       192.168.1.11
+```
+
+#### 3.4: Start DNS Service
+Restart the **Bind9** DNS service:
+
+```bash
+sudo systemctl restart bind9
+sudo systemctl enable bind9
+```
+
+---
+
+### Step 4: Testing the Network
+
+#### 4.1: DHCP Client
+On the **Windows or Ubuntu** client machine:
+- Check if it obtains an IP address from the **DHCP** server using:
+
+```bash
+ip a  # On Linux
+ipconfig /all  # On Windows
+```
+
+#### 4.2: DNS Testing
+On the client machine, test if it can resolve domain names configured in the DNS server:
+
+```bash
+ping client1.lab.local
+```
+
+If the client resolves the domain name successfully, your **DNS** configuration is working correctly.
+
+---
+
+### Step 5: Monitoring DHCP and DNS Traffic Using Wireshark
+
+On the **Kali Linux** machine:
+1. Open **Wireshark** and select the network interface used by the VMs.
+2. Start capturing packets and observe the **DHCP** and **DNS** traffic as clients request IP addresses and resolve domain names.
+
+---
+
+### Step 6: Conducting DHCP and DNS Attacks
+
+#### 6.1: DHCP Starvation Attack
+To perform a **DHCP starvation** attack (denying other clients from obtaining an IP by exhausting the pool), use **Yersinia** on **Kali Linux**:
+
+```bash
+sudo yersinia -G
+```
+
+1. Open the **DHCP** tab.
+2. Select the **DHCP Discover Flood** attack to exhaust the DHCP server's IP address pool.
+
+#### 6.2: DNS Spoofing Attack
+To conduct a **DNS spoofing** attack, use **Ettercap** on **Kali Linux**:
+
+```bash
+sudo ettercap -G
+```
+
+1. Select the network interface and start sniffing.
+2. Set up a **DNS Spoof** plugin to redirect DNS queries to a malicious IP.
+
+---
+
+### Notes:
+- Always perform such tests in a controlled environment (virtual lab) to avoid affecting real networks.
+- Never conduct these attacks on networks you don’t own or have explicit permission to test on, as it is illegal.
